@@ -2,10 +2,13 @@ import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 import jwt from "jsonwebtoken";
+import { jwtHelper } from "../utils/jwtHelper";
+import config from "../config";
 interface IUserInfo {
   name: string;
   email: string;
   password: string;
+  bio?: string;
 }
 
 export const resolvers = {
@@ -16,6 +19,17 @@ export const resolvers = {
   },
   Mutation: {
     signup: async (parent: any, args: IUserInfo, context: any) => {
+      const isExists = await prisma.user.findFirst({
+        where: {
+          email: args.email,
+        },
+      });
+      if (isExists) {
+        return {
+          userError: "User already exists",
+          token: null,
+        };
+      }
       const hashedPassword = await bcrypt.hash(args.password, 12);
       const newUser = await prisma.user.create({
         data: {
@@ -24,10 +38,22 @@ export const resolvers = {
           password: hashedPassword,
         },
       });
-      const token = jwt.sign(
-        { userId: newUser?.id, email: newUser?.email },
-        "blogsecret",
-        { expiresIn: "1d" }
+
+      if (args?.bio) {
+        await prisma.profile.create({
+          data: {
+            bio: args.bio,
+            userId: newUser.id,
+          },
+        });
+      }
+
+      const token = await jwtHelper.generateToken(
+        {
+          userId: newUser?.id,
+          email: newUser?.email,
+        },
+        config.jwt_access_secret as string
       );
       return { userError: null, token };
     },
@@ -56,10 +82,12 @@ export const resolvers = {
           token: null,
         };
       }
-      const token = jwt.sign(
-        { userId: user?.id, email: user?.email },
-        "blogsecret",
-        { expiresIn: "1d" }
+      const token = await jwtHelper.generateToken(
+        {
+          userId: user?.id,
+          email: user?.email,
+        },
+        config.jwt_access_secret as string
       );
 
       return {

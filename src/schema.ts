@@ -12,6 +12,7 @@ type Query {
     name:String!,
     email:String!,
     password:String!,
+    bio:String
     ):AuthPayload,
 
     signin(email:String!, password:String!):AuthPayload
