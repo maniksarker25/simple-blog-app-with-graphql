@@ -1,0 +1,25 @@
+{
+  "name": "simple-blog-app-with-graphql",
+  "version": "1.0.0",
+  "description": "- user can post and pulish blog content\r - user can see post\r - authentication system\r - user can see their own profile",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --watch './**/*.ts' --exec ts-node src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/server": "^4.10.5",
+    "@prisma/client": "^5.17.0",
+    "graphql": "^16.9.0",
+    "ts-node-dev": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.2",
+    "nodemon": "^3.1.4",
+    "prisma": "^5.17.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
