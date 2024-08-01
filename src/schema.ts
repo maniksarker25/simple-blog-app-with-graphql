@@ -12,10 +12,12 @@ type Query {
     name:String!,
     email:String!,
     password:String!,
-    ):UserArgs
+    ):AuthPayload,
+
+    signin(email:String!, password:String!):AuthPayload
     }
 
-    type UserArgs {
+    type AuthPayload {
     token:String
     }
 
