@@ -21,7 +21,7 @@ model Post {
   author    User     @relation(fields: [authorId], references: [id])
   published Boolean  @default(false)
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("posts")
 }
@@ -32,7 +32,7 @@ model User {
   email     String
   password  String
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   posts     Post[]
   profile   Profile?
 
@@ -43,7 +43,7 @@ model Profile {
   id        Int      @id @default(autoincrement())
   bio       String
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   userId    Int      @unique
   user      User     @relation(fields: [userId], references: [id])
 
