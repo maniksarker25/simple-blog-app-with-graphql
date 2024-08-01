@@ -18,6 +18,7 @@ type Query {
     }
 
     type AuthPayload {
+    userError:String
     token:String
     }
 

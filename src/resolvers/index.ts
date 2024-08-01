@@ -29,8 +29,43 @@ export const resolvers = {
         "blogsecret",
         { expiresIn: "1d" }
       );
-      console.log(token);
-      return { token };
+      return { userError: null, token };
+    },
+
+    // sign in
+    signin: async (parent: any, args: any, content: any) => {
+      const user = await prisma.user.findFirst({
+        where: {
+          email: args.email,
+        },
+      });
+      if (!user) {
+        return {
+          userError: "User does not exist",
+          token: null,
+        };
+      }
+      const isPasswordMatched = await bcrypt.compare(
+        args.password,
+        user?.password
+      );
+
+      if (!isPasswordMatched) {
+        return {
+          userError: "Password does not match",
+          token: null,
+        };
+      }
+      const token = jwt.sign(
+        { userId: user?.id, email: user?.email },
+        "blogsecret",
+        { expiresIn: "1d" }
+      );
+
+      return {
+        userError: null,
+        token,
+      };
     },
   },
 };
