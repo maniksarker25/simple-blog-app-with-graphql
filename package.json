@@ -12,7 +12,11 @@
   "dependencies": {
     "@apollo/server": "^4.10.5",
     "@prisma/client": "^5.17.0",
+    "@types/bcrypt": "^5.0.2",
+    "@types/jsonwebtoken": "^9.0.6",
+    "bcrypt": "^5.1.1",
     "graphql": "^16.9.0",
+    "jsonwebtoken": "^9.0.2",
     "ts-node-dev": "^2.0.0"
   },
   "devDependencies": {

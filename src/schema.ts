@@ -12,7 +12,11 @@ type Query {
     name:String!,
     email:String!,
     password:String!,
-    ):User
+    ):UserArgs
+    }
+
+    type UserArgs {
+    token:String
     }
 
   type Post {
