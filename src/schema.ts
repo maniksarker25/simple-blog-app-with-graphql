@@ -17,7 +17,9 @@ export const typeDefs = `#graphql
 
     signin(email:String!, password:String!):AuthPayload
 
-    addPost(title:String!,content:String!): PostResponse
+    addPost(post:PostInput!): PostResponse
+
+    updatePost(postId:ID!,post:PostInput!):PostResponse
     }
 
  
@@ -55,5 +57,10 @@ export const typeDefs = `#graphql
     type PostResponse{
     postError:String,
     post:Post
+    }
+
+    input PostInput{
+    title:String
+    content:String
     }
 `;
