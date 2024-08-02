@@ -1,3 +1,5 @@
+import { checkUserAccess } from "../../utils/checkUserAccess";
+
 export const postMutations = {
   addPost: async (parent: any, { post }: any, { prisma, userInfo }: any) => {
     if (!userInfo) {
@@ -31,34 +33,9 @@ export const postMutations = {
         post: null,
       };
     }
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userInfo?.userId,
-      },
-    });
-    if (!user) {
-      return {
-        postError: "Unauthorized",
-        post: null,
-      };
-    }
-    const post = await prisma.post.findUnique({
-      where: {
-        id: Number(args?.postId),
-      },
-    });
-    if (!post) {
-      return {
-        postError: "Post not found",
-        post: null,
-      };
-    }
-
-    if (post?.authorId !== user?.id) {
-      return {
-        postError: "This is not your post",
-        post: null,
-      };
+    const error = await checkUserAccess(prisma, userInfo?.userId, args?.postId);
+    if (error) {
+      return error;
     }
     const updatedPost = await prisma.post.update({
       where: {
@@ -69,6 +46,27 @@ export const postMutations = {
     return {
       postError: null,
       post: updatedPost,
+    };
+  },
+  deletePost: async (parent: any, args: any, { prisma, userInfo }: any) => {
+    if (!userInfo) {
+      return {
+        postError: "Unauthorized",
+        post: null,
+      };
+    }
+    const error = await checkUserAccess(prisma, userInfo?.userId, args?.postId);
+    if (error) {
+      return error;
+    }
+    const deletedPost = await prisma.post.delete({
+      where: {
+        id: Number(args?.postId),
+      },
+    });
+    return {
+      postError: null,
+      post: deletedPost,
     };
   },
 };

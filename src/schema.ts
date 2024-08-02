@@ -20,6 +20,8 @@ export const typeDefs = `#graphql
     addPost(post:PostInput!): PostResponse
 
     updatePost(postId:ID!,post:PostInput!):PostResponse
+
+    deletePost(postId:ID!): PostResponse
     }
 
  
@@ -28,7 +30,7 @@ export const typeDefs = `#graphql
     id:ID!
     title:String!
     content:String!
-    author:User!
+    author:User
     published:Boolean!
     createdAT:String!
     }
