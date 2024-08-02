@@ -4,7 +4,7 @@
   "description": "- user can post and pulish blog content\r - user can see post\r - authentication system\r - user can see their own profile",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch './**/*.ts' --exec ts-node src/index.ts"
+    "dev": "nodemon "
   },
   "keywords": [],
   "author": "",
