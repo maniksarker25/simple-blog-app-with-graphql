@@ -11,6 +11,7 @@ interface IUserInfo {
 }
 
 export const Mutation = {
+  // sign up
   signup: async (parent: any, args: IUserInfo, { prisma }: any) => {
     const isExists = await prisma.user.findFirst({
       where: {
@@ -87,5 +88,10 @@ export const Mutation = {
       userError: null,
       token,
     };
+  },
+
+  // add post
+  addPost: async (parent: any, args: any, { prisma, userInfo }: any) => {
+    console.log(userInfo);
   },
 };
