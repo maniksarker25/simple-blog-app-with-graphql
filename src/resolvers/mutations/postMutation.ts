@@ -69,4 +69,28 @@ export const postMutations = {
       post: deletedPost,
     };
   },
+  publishedPost: async (parent: any, args: any, { prisma, userInfo }: any) => {
+    if (!userInfo) {
+      return {
+        postError: "Unauthorized",
+        post: null,
+      };
+    }
+    const error = await checkUserAccess(prisma, userInfo?.userId, args?.postId);
+    if (error) {
+      return error;
+    }
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: Number(args?.postId),
+      },
+      data: {
+        published: true,
+      },
+    });
+    return {
+      postError: null,
+      post: updatedPost,
+    };
+  },
 };
