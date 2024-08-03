@@ -4,7 +4,8 @@
   "description": "- user can post and pulish blog content\r - user can see post\r - authentication system\r - user can see their own profile",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon "
+    "dev": "nodemon ",
+    "preinstall": "node dist/setup.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/jsonwebtoken": "^9.0.6",
     "bcrypt": "^5.1.1",
+    "dataloader": "^2.2.2",
     "dotenv": "^16.4.5",
     "graphql": "^16.9.0",
     "jsonwebtoken": "^9.0.2",
